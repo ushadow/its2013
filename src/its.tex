@@ -141,56 +141,35 @@ recognition in video sequences~\cite{wang2009}. They used the same bag-of-featur
 method for all the feature detector and descriptor combinations. 
 Codebook With the bag of words
 
+Any HHMM can be converted to regular HMM by creating an HMM state for every leaf in the HHMM
+state transition diagram~\cite{murphy02}. Both HHMM and HMM have advantages and disadvantages. Advantages for HHMM
+over a mixture of HMMs model.
+\begin{itemize}
+  \item Can share substructures ($S_t$) across different HMMs, but not in the mixture of HMMs model.
+  \item HHMM can provide a mult-A flat HMM cannot easily provide 
+\end{itemize}
 
-\section{Typeset Text}
+Advantages of HMM
+\begin{itemize}
+  \item Can specify more constraints in the the parameters, i.e. use Bakis model. to reduce the total number of parameters
+It is harder to impose Bakis model to HHMM since the hidden states are shared. The state transition probability for $S_t$ in HHMM
+is $|S|^2 \times |G| $. In mixture HMMs model, it is $k\times |S|\times|G|$ where $k$ is the number of states a state can transit to. 
+\end{itemize}
 
-Prepare your submissions on a word processor or typesetter.  Please
-note that page layout may change slightly depending upon the printer
-you have specified.  \LaTeX\ sometimes will create overfull lines
-that extend into columns.  To attempt to combat this, the .cls
-file has a command, {\textbackslash}sloppy, that essentially asks
-\LaTeX\ to prefer underfull lines with extra whitespace.  For more
-details on this, and info on how to control it more finely, check out
-{\url{http://www.economics.utoronto.ca/osborne/latex/PMAKEUP.HTM}}.
+If we do not constrain the transition in the hidden states $S_t$, HHMM may have a fewer number of parameters because of the states sharing.
+If we constrain the transition, specifying more structures in the sub HMMs, the mixture of HMMs can have fewer number of parameters.
 
-\subsection{Title and Authors}
+Training HMMs separately and combining them into HHMM for gesture inference.
 
-Your paper's title, authors and affiliations should run across the
-full width of the page in a single column 17.8 cm (7 in.) wide.  The
-title should be in Helvetica 18-point bold; use Arial if Helvetica is
-not available.  Authors' names should be in Times Roman 12-point bold,
-and affiliations in Times Roman 12-point.  For more than three authors,
-you may have to place some address information in a footnote, or in a named
-section at the end of your paper. Please use full international addresses and
-telephone dialing prefixes.  Leave one 10-pt line of white space below the last
-line of affiliations.
+\section{Implementation details}
+PCA reduction. The features are in the PC space, so they should have small correlations.
+So we set the covariance matrices for the Gaussian CPD to be diagonal.
 
-\subsection{Abstract and Keywords}
 
-Every submission should begin with an abstract of about 150 words,
-followed by a set of keywords. The abstract and keywords should be
-placed in the left column of the first page under the left half of the
-title. The abstract should be a concise statement of the problem,
-approach and conclusions of the work described.  It should clearly
-state the paper's contribution to the field of HCI.
+\subsection{HMM training}
 
-The first set of keywords will be used to index the paper in the
-proceedings. The second set are used to catalogue the paper in the ACM
-Digital Library. The latter are entries from the ACM Classification
-System~\cite{acm_categories}.  In general, it should only be necessary
-to pick one or more of the H5 subcategories, see
-\url{http://www.acm.org/class/1998/ccs98.html}
+Compute termination probability $P(END|S_T)$
 
-\subsection{Normal or Body Text}
-
-Please use a 10-point Times Roman font or, if this is unavailable,
-another proportional font with serifs, as close as possible in
-appearance to Times Roman 10-point. The Press 10-point font available
-to users of Script is a good substitute for Times Roman. If Times
-Roman is not available, try the font named Computer Modern Roman. On a
-Macintosh, use the font named Times and not Times New Roman. Please
-use sans-serif or non-proportional fonts only for special purposes,
-such as headings or source code text.
 
 \subsection{First Page Copyright Notice}
 
