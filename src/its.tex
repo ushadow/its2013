@@ -101,14 +101,8 @@ letter-number combination will need to be entered.}
 
 \section{Introduction}
 
-This format is to be used for submissions that are
-published in the conference proceedings.  We wish to give
-this volume a consistent, high-quality appearance. We
-therefore ask that authors follow some simple
-guidelines. In essence, you should format your paper
-exactly like this document. The easiest way to do this is
-simply to download a template from the conference web
-site, and replace the content with your own material.
+Abstract Hidden Markov Model for online continuous gesture recognition with
+unbounded and unsegmented RGB and depth video sequences. 
 
 \section{Related Work}
 Bag-of-feature approach is similar to the bag-of-word approach in document classification. 
@@ -122,6 +116,11 @@ Heng et al. did an evaluation of several feature detectors and descriptors for a
 recognition in video sequences~\cite{wang2009}. They used the same bag-of-features SVM classification
 method for all the feature detector and descriptor combinations. 
 Codebook With the bag of words
+
+SVM does not usually handle time series data. To use SVM for time series, one
+can concatenate the input in a time series into one long vector sample. scale
+short time 
+action recognition
 
 Any HHMM can be converted to regular HMM by creating an HMM state for every leaf in the HHMM
 state transition diagram~\cite{murphy02}. Both HHMM and HMM have advantages and disadvantages. Advantages for HHMM
@@ -149,11 +148,24 @@ hands show more movement. Our method is very similar to their approach but we co
 the gesture salience map. They hypothesized that given a frontal, static camera pointing to the upper body of a person, hands are
 normally the parts of the image that show more movement. The two strong indicators are: 
 
+Space-time interest point
 \section{Implementation Details}
 PCA reduction. The features are in the PC space, so they should have small correlations.
 So we set the covariance matrices for the Gaussian CPD to be diagonal.
 
-\subsection{Gesture Salience Map}
+Feature computation on video sequences can be broken down into two steps: 1)
+locate points of interest by maximizing certain salience functions; 2) compute
+feature descriptors to capture shape and motion in the neighborhoods of selected
+points using image measurements such as spatial or spatio-temporal image
+gradients and optical flow.
+
+Local space-time features capture characteristic shape and motion in video and
+provide relatively independent representation of events with respect to their
+spatio-temporal shifts and scales. \cite{wang-spatio-2009}
+
+
+\cite{wang-spatio-2009}
+\subsection{Gesture Salience Detection}
 Both the RGB camera and the depth camera can be noisy. RGB camera is sensitive to lighting conditions (cite)
 Skin color: failure mode clothes with skin color.
 
@@ -174,50 +186,68 @@ Compute termination probability $P(END|S_T)$
 \label{fig:figure1}
 \end{figure}
 
-\begin{table}
-  \centering
-  \begin{tabular}{|c|c|c|}
-    \hline
-    \tabhead{Objects} &
-    \multicolumn{1}{|p{0.3\columnwidth}|}{\centering\tabhead{Caption --- pre-2002}} &
-    \multicolumn{1}{|p{0.4\columnwidth}|}{\centering\tabhead{Caption --- 2003 and afterwards}} \\
-    \hline
-    Tables & Above & Below \\
-    \hline
-    Figures & Below & Below \\
-    \hline
-  \end{tabular}
-  \caption{Table captions should be placed below the table.}
-  \label{tab:table1}
-\end{table}
-
-\section{Figures/Captions}
-
-Place figures and tables at the top or bottom of the appropriate
-column or columns, on the same page as the relevant text
-(see Figure~\ref{fig:figure1}). A figure or table may extend across both
-columns to a maximum width of 17.78 cm (7 in.).
-
-Captions should be Times New Roman 9-point bold.  They should be numbered (e.g.,
-``Table~\ref{tab:table1}'' or ``Figure~\ref{fig:figure2}''), centered
-and placed beneath the figure or table.  Please note that the words
-``Figure'' and ``Table'' should be spelled out (e.g., ``Figure''
-rather than ``Fig.'') wherever they occur.
-
-Papers and notes may use color figures, which are included in the page
-limit; the figures must be usable when printed in black and white in
-the proceedings.  The paper may be accompanied by a short video figure
-up to five minutes in length.  However, the paper should stand on its
-own without the video figure, as the video may not be available to
-everyone who reads the paper.
-
 
 \section{Experimental Evaluation}
 
 \subsection{Data Set}
 data set has both lighting conditions: normal and low intensity. IMU sensors, not used. Intrusive.
 
-\subsection{Compare tracking methods}
+\subsection{Comparison of Feature Detection Methods}
+% \begin{table}
+%   \centering
+%   \begin{tabular}{|c|c|c|}
+%     \hline
+%     \tabhead{Objects} &
+%     \multicolumn{1}{|p{0.3\columnwidth}|}{\centering\tabhead{Caption --- pre-2002}} &
+%     \multicolumn{1}{|p{0.4\columnwidth}|}{\centering\tabhead{Caption --- 2003 and afterwards}} \\
+%     \hline
+%     Tables & Above & Below \\
+%     \hline
+%     Figures & Below & Below \\
+%     \hline
+%   \end{tabular}
+%   \caption{Table captions should be placed below the table.}
+%   \label{tab:table1}
+% \end{table}
+
+\textbf{Dense} sampling extracts
+
+Skin and skeleton method finds the skin contour 
+  
+We use the same feature descriptor 
+\begin{table}
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\tabhead{Feature detector} & {\tabhead{Accuracy}} & {\tabhead{F1}}\\
+\hline
+Dense sampling (full body) & & \\
+\hline
+Skin \& skeleton & & \\
+\hline
+Salience & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Comparison of Recognition Training Methods}
+Graph search?
+Same salience feature detector and descriptor.
+\begin{table}
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\tabhead{Training method} & {\tabhead{Accuracy}} & {\tabhead{F1}}\\
+\hline
+HMM & & \\
+\hline
+AHMM & & \\
+\hline
+AHMM fixed lag smoothing (L = 16) & & \\ 
+\hline
+\end{tabular}
+\end{table}
+
 
 \section{Future Work}
 Do away from skin color, what if the user wear glove, or like in the data set,
